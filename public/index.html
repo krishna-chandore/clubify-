@@ -12,20 +12,20 @@
   <header>
     <div class="nav-container">
       <div class="logo">CLUBIFY</div>
-      <nav class="nav-links">
-       <a href="#home">Home</a>
-       <a href="#about">About</a>
-       <a href="#">Services</a>
-       <a href="#">Team</a>
-       <a href="#">Events</a>
-        <a href="#">How It Works</a>
-       <a href="#">Blog</a>
+      <nav class ="nav-links">
+       <a href="#home" class="nav-link">Home</a>
+       <a href="#about" class="nav-link">About</a>
+       <a href="#services" class="nav-link">Services</a>
+       <a href="#" class="nav-link">Team</a>
+       <a href="#event" class="nav-link">Events</a>
+        <a href="#club-features" class="nav-link">How It Works</a>
+       <a href="#" class="nav-link" >Blog</a>
       </nav>
-      <a href="#" class="contact-button">Contact</a>
+      <a href="#contact" class="contact-button">Contact</a>
     </div>
   </header>
 
-  <section class="hero" id="home" >
+  <section class="hero-section" id="home" >
     <div class="hero-content">
       <h1>Join your club today</h1>
       <p>Explore collaborative clubs and events</p>
@@ -47,7 +47,7 @@
       </div>
     </div>
   </section>
-  <section class="features-section">
+  <section class="features-section" id="services">
     <div class="features-header">
       <h4>ENGAGE AND CONNECT</h4>
       <h2>Join clubs, share ideas, and grow together!</h2>
@@ -76,6 +76,73 @@
       </div>
     </div>
   </section>
+  <!-- event section -->
+  <section class="event-section" id="event">
+    <p class="event-tag">JOIN OUR CLUB EVENTS</p>
+    <h2 class="event-heading">Stay updated with the latest happenings!</h2>
+    <hr />
+  
+    <div class="event-card">
+      <img src="your-image.jpg" alt="Creative arts workshop" class="event-image" />
+      <div class="event-info">
+        <h3 class="event-title">Creative arts workshop</h3>
+        <p class="event-date">June 1, 2026 at 11:00 AM</p>
+        <p class="event-description">
+          Unleash your creativity in our engaging arts workshop!
+        </p>
+        <a href="#" class="event-link">Learn more</a>
+      </div>
+    </div>
+  
+    <hr />
+  </section>
+  
+  <!-- Club Features Section -->
+<section id="club-features" class="detail-section">
+  <p class="section-title">Join the club experience</p>
+  <h1>Connect, collaborate, and create together!</h1>
+
+  <div class="features">
+    <div class="card">
+      <img src="7066f16d-cd40-4fe0-b519-791bde4c13ff.png" alt="Club Events" />
+      <h2>Upcoming club events</h2>
+      <p>Discover exciting events happening in your club.</p>
+      <span class="learn-more" onclick="openModal('modal1')">Learn more</span>
+    </div>
+
+    <div class="card">
+      <img src="file-3FHwq7adQTtNWwGzLh1Gv9.png" alt="Discussion Page" />
+      <h2>Real-time discussion page</h2>
+      <p>Join the conversation with your club members online.</p>
+      <span class="learn-more" onclick="openModal('modal2')">Learn more</span>
+    </div>
+  </div>
+
+  <!-- Modal for Upcoming Events -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <img src="file-Mb5nz5MGnqeFj2T46LciJ2.png" alt="Club Events" />
+      <div class="text">
+        <span class="close" onclick="closeModal('modal1')">&times;</span>
+        <h2>Upcoming club events</h2>
+        <p>Stay in the loop with all the exciting events happening at your club! Our Upcoming Club Events page is designed to keep you informed about everything from workshops and guest lectures to social gatherings and competitions. Each event includes detailed information, including date, time, location, and how to participate. Whether you're looking to enhance your skills, network with peers, or simply have fun, this page is your go-to resource. Join your fellow members and make the most of your club experience by attending these events that matter to you.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for Discussion Page -->
+  <div id="modal2" class="modal">
+    <div class="modal-content">
+      <img src="file-Ezk8kmHh85MzZQXkfCvF6g.png" alt="Discussion" />
+      <div class="text">
+        <span class="close" onclick="closeModal('modal2')">&times;</span>
+        <h2>Real-time discussion page</h2>
+        <p>Engage actively with your club members through our Real-Time Discussion Page. This platform offers you a space to share ideas, ask questions, and collaborate on projects. Whether you want to discuss a recent event, seek advice on a project, or brainstorm new ideas, this page is the perfect forum. Members can post comments, reply to others, and interact in real-time, fostering a vibrant community. Don’t miss the opportunity to connect with like-minded individuals and enhance your club experience with lively discussions and valuable insights.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
     <!-- conatact form -->
     <section class="contact-section" id="contact">
       <div class="contact-container">
@@ -83,13 +150,13 @@
           <h4>GET IN TOUCH</h4>
           <h2>We'd love to hear from you!</h2>
           <form>
-            <label for="name">Name *</label>
+            <label for="name">Name <span class="required">*</span></label>
             <input type="text" id="name" placeholder="Jane Smith" required />
     
-            <label for="email">Email address *</label>
+            <label for="email">Email address <span class="required">*</span></label>
             <input type="email" id="email" placeholder="email@website.com" required />
     
-            <label for="phone">Phone number *</label>
+            <label for="phone">Phone number <span class="required">*</span></label>
             <input type="tel" id="phone" placeholder="555-555-5555" required />
     
             <label for="message">Message</label>
@@ -127,6 +194,6 @@
       </div>
     </section>
     
-
+    <script src="script.js"></script>
 </body>
 </html>
