@@ -35,11 +35,11 @@
 
   }
   
-  .logo {
+  /* .logo {
     font-size: 1.7rem;
     font-weight: 800;
     color: #000;
-  }
+  } */
   .logo {
     display: flex;
     align-items: center;
