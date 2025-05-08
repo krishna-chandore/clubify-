@@ -1,0 +1,50 @@
+.club-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    padding: 100px 40px;
+    background-color: #f9f9f9;
+  }
+  
+  .club-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+    text-align: center;
+    padding-bottom: 20px;
+  }
+  
+  .club-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+  
+  .club-card h3 {
+    margin: 16px 0 8px;
+    font-size: 1.2rem;
+    color: #111;
+  }
+  
+  .club-card p {
+    font-size: 0.95rem;
+    color: #555;
+    margin: 0 16px 16px;
+  }
+  
+  .follow-btn {
+    padding: 10px 20px;
+    background-color: #21c41b;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .follow-btn:hover {
+    background-color: #188d15;
+  }
+  
