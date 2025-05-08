@@ -560,4 +560,32 @@
     margin-bottom: 8px;
     font-size: 15px;
   }
+  .event-image {
+    width: 200px;     /* or whatever size fits your design */
+    height: 150px;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+  .event-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    padding: 20px;
+  }
   
+  .event-card {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 500px;
+  }
+  
+  .event-image {
+    width: 100%;
+    height: 650px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+    
