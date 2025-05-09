@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Club Details</title>
+  <!-- <link rel="stylesheet" href="style.css" /> -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+
+  <link rel="stylesheet" href="{%static 'css/club-detail.css' %}" />
+</head>
+<body>
+  <header>
+    <div class="nav-container">
+      <div class="logo">
+        <img src="{%static 'src/LOGO.png' %}" alt="Clubify Logo" height="50" />
+        <span class="logo-text">CLUBIFY</span>
+      </div>
+      <nav class ="nav-links">
+       <a href="index.html#home" class="nav-link">Home</a>
+       <a href="index.html#about" class="nav-link">About</a>
+       <a href="index.html#services" class="nav-link">Services</a>
+       <a href="index.html#event"class="nav-link">Events</a>
+       <a href="join-clubs.html" class="nav-link">Join Clubs</a>
+       <a href="index.html#club-features" class="nav-link">How It Works</a>
+       <a href="#" class="nav-link" >Blog</a>
+      </nav>
+      <a href="index.html#contact" class="contact-button">Contact</a>
+    </div>
+  </header>
+
+  <section class="club-banner">
+    <div class="banner-overlay">
+      <img id="club-image" src="" class="club-avatar" alt="Club" />
+      <div class="club-info">
+        <h1 id="club-name">Loading...</h1>
+        <button class="join-btn" id="join-btn">Join</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="club-main">
+    <section class="club-section">
+      <h2>About the Club</h2>
+      <p id="club-description"></p>
+    </section>
+
+    <section class="club-section">
+      <h2>📌 Mission</h2>
+      <p id="club-mission"></p>
+    </section>
+
+    <section class="club-section">
+      <h2>🗓 Past Events</h2>
+      <ul id="club-events" class="event-list"></ul>
+    </section>
+
+    <section class="club-section">
+      <h2>📸 Club Gallery</h2>
+      <div class="media-grid" id="club-gallery"></div>
+    </section>
+
+    <section class="club-section">
+      <h2>📄 Resources</h2>
+      <ul id="club-resources" class="resource-list"></ul>
+    </section>
+
+    <section class="club-section">
+      <h2>👤 Admin Info</h2>
+      <p id="club-admin"></p>
+    </section>
+  </main>
+  
+  <script src="{% static 'js/club-detail.js' %}"></script>
+
+  <!-- <script src="club-detail.js"></script> -->
+</body>
+</html>
