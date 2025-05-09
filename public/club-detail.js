@@ -5,9 +5,9 @@ const clubDatabase = {
   tech: {
     name: "Manas club",
     image: "../src/manas club.png",
-    description: "The Tech Society promotes innovation through tech workshops, hackathons, and seminars.",
-    mission: "To empower students with the latest in technology and foster a creative problem-solving environment.",
-    events: ["AI Hackathon", "Web3 Seminar", "Robotics Bootcamp"],
+    description: "The literature Society promotes innovation through poems, shayri, book explanation events and seminars.",
+    mission: "To empower students with the creativity of their minds and foster a creative literate arts.",
+    events: ["Litfest2025", "Debate Competition", "book explanation Bootcamp"],
     gallery: [
       { type: "image", src: "img/event1.jpg" },
       { type: "video", src: "video/highlights.mp4" },
@@ -22,7 +22,7 @@ const clubDatabase = {
   art: {
     name: "Natraj Club",
     image: "..\src\natraj club2.jpg",
-    description: "A haven for budding artists and creatives.",
+    description: "A heaven for dance artists and creatives.",
     mission: "To cultivate artistic expression and appreciation among students.",
     events: ["Sketch Jam", "Gallery Night", "Mural Week"],
     gallery: [
@@ -37,15 +37,15 @@ const clubDatabase = {
   music: {
     name: "Drama Club",
     image: "..\src\Drama Club.jpg",
-    description: "For students passionate about creating and performing music.",
-    mission: "To bring students together through the joy of music.",
-    events: ["Open Mic Night", "Fusion Fest", "Acoustic Jam"],
+    description: "For students passionate about creating and performing actings and drama.",
+    mission: "To bring students together through the joy of dance.",
+    events: ["Open acting competition", "Fusion Fest", "Acoustic Jam"],
     gallery: [
       { type: "video", src: "video/music1.mp4" },
       { type: "image", src: "img/music2.jpg" }
     ],
     resources: [
-      { name: "Sheet Music Collection", link: "resources/sheet-music.pdf" }
+      { name: "Sheet Dance Collection", link: "resources/sheet-music.pdf" }
     ],
     admin: "Rishabh Gayanse, Head (rishabh@college.edu)"
   }
