@@ -1,0 +1,17 @@
+<!-- templates/club/edit_event.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Event</title>
+</head>
+<body>
+  <h2>Edit Event: {{ event.title }}</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Changes</button>
+  </form>
+
+  <p><a href="{% url 'create_event' %}">Back to Event List</a></p>
+</body>
+</html>
