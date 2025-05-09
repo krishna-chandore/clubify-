@@ -4,7 +4,7 @@
 const clubDatabase = {
   tech: {
     name: "Manas club",
-    image: "..\src\manas club.png",
+    image: "../src/manas club.png",
     description: "The Tech Society promotes innovation through tech workshops, hackathons, and seminars.",
     mission: "To empower students with the latest in technology and foster a creative problem-solving environment.",
     events: ["AI Hackathon", "Web3 Seminar", "Robotics Bootcamp"],
@@ -17,11 +17,11 @@ const clubDatabase = {
       { name: "Workshop Slides", link: "resources/slides.pdf" },
       { name: "Hackathon Guide", link: "resources/guide.pdf" }
     ],
-    admin: "John Doe, President (john@college.edu)"
+    admin: "Shreyansh Rangawat, President (shreyansh@college.edu)"
   },
   art: {
-    name: "Art Circle",
-    image: "img/art-club.jpg",
+    name: "Natraj Club",
+    image: "..\src\natraj club2.jpg",
     description: "A haven for budding artists and creatives.",
     mission: "To cultivate artistic expression and appreciation among students.",
     events: ["Sketch Jam", "Gallery Night", "Mural Week"],
@@ -32,11 +32,11 @@ const clubDatabase = {
     resources: [
       { name: "Color Theory Guide", link: "resources/art-guide.pdf" }
     ],
-    admin: "Ella Stone, Coordinator (ella@college.edu)"
+    admin: "Pratham Goyal, Coordinator (pratham@college.edu)"
   },
   music: {
-    name: "Music Ensemble",
-    image: "img/music-club.jpg",
+    name: "Drama Club",
+    image: "..\src\Drama Club.jpg",
     description: "For students passionate about creating and performing music.",
     mission: "To bring students together through the joy of music.",
     events: ["Open Mic Night", "Fusion Fest", "Acoustic Jam"],
@@ -47,7 +47,7 @@ const clubDatabase = {
     resources: [
       { name: "Sheet Music Collection", link: "resources/sheet-music.pdf" }
     ],
-    admin: "Mike Jensen, Head (mike@college.edu)"
+    admin: "Rishabh Gayanse, Head (rishabh@college.edu)"
   }
 };
 
