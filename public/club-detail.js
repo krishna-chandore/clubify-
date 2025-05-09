@@ -3,8 +3,8 @@
 // Simulated club data
 const clubDatabase = {
   tech: {
-    name: "Tech Society",
-    image: "img/tech-club.jpg",
+    name: "Manas club",
+    image: "..\src\manas club.png",
     description: "The Tech Society promotes innovation through tech workshops, hackathons, and seminars.",
     mission: "To empower students with the latest in technology and foster a creative problem-solving environment.",
     events: ["AI Hackathon", "Web3 Seminar", "Robotics Bootcamp"],
