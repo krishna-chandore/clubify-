@@ -8,19 +8,26 @@
   <link rel="stylesheet" href="join-clubs.css" />
 </head>
 <body>
-  <header>
-    <div class="nav-container">
-      <div class="logo">
-        <img src="../src/LOGO.png" class="logo-img" alt="Logo" />
-        <span class="logo-text">Clubify</span>
+  <div class="main-wrapper">
+    <header>
+      <div class="nav-container">
+        <div class="logo">
+          <img src="..\src\LOGO.png" alt="Clubify Logo" height="50" />
+          <span class="logo-text">CLUBIFY</span>
+        </div>
+        <nav class ="nav-links">
+         <a href="index.html#home" class="nav-link">Home</a>
+         <a href="index.html#about" class="nav-link">About</a>
+         <a href="index.html#services" class="nav-link">Services</a>
+         <a href="index.html#event"class="nav-link">Events</a>
+         <a href="index.html#club-features" class="nav-link">How It Works</a>
+         <a href="#" class="nav-link" >Blog</a>
+        </nav>
+        <a href="index.html#contact" class="contact-button">Contact</a>
       </div>
-      <nav class="nav-links">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="join-clubs.html" class="nav-link active">Join Clubs</a>
-      </nav>
-    </div>
-  </header>
-
+    </header>
+  <main class="main-content">
+  <section class="club-list">
   <section class="club-grid">
     <div class="club-card">
       <img src="https://via.placeholder.com/300x180.png?text=Tech+Club" alt="Tech Club">
@@ -35,7 +42,7 @@
       <h3>Music Club</h3>
       <p>Jam with fellow musicians and explore new sounds.</p>
       <!-- <button class="follow-btn" onclick="toggleFollow(this)">Follow</button> -->
-      <a href="club-detail.html?club=tech" class="follow-btn">View Club</a>
+      <a href="club-detail.html?club=music" class="follow-btn">View Club</a>
 
     </div>
     <div class="club-card">
@@ -43,11 +50,27 @@
       <h3>Drama Club</h3>
       <p>Perform, direct, and create stories on stage.</p>
       <!-- <button class="follow-btn" onclick="toggleFollow(this)">Follow</button> -->
-      <a href="club-detail.html?club=tech" class="follow-btn">View Club</a>
+      <a href="club-detail.html?club=drama" class="follow-btn">View Club</a>
 
     </div>
   </section>
 
   <script src="join-clubs.js"></script>
-</body>
+  </section>
+ </main>
+ 
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="#">Schedule Appointment</a>
+      <a href="#">Complete Intake</a>
+      <a href="#">FAQ</a>
+      <a href="#">Resources</a>
+      <a href="#">Privacy Policy</a>
+    </div>
+    <div class="footer-credit">
+      <a href="#">Web design</a> by <a href="#" class="b12">KRISHNA AND TEAM</a>
+    </div>
+   </footer>
+  </div>
+ </body>
 </html>

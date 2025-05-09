@@ -34,7 +34,9 @@ const observer = new IntersectionObserver(
       }
     });
   },
-  { threshold: 0.6 }
+  {rootMargin: '-50% 0px -40% 0px', // top margin, right, bottom, left
+    threshold: 0
+  }
 );
 
 // Observe sections
