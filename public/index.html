@@ -42,7 +42,7 @@
         <p>
           Welcome to Clubify, the ultimate platform designed for college students to connect, collaborate, and create unforgettable experiences. Explore multiple club pages that feature upcoming events, valuable resources, and profiles of club leaders. Engage in real-time discussions and share your thoughts with fellow members through daily posts. With Clubify, you're not just part of a club; you're part of a vibrant community that empowers you to make the most out of your college journey. Join us and elevate your college experience!
         </p>
-        <a href="#">Get in touch</a>
+        <a href="#contact">Get in touch</a>
       </div>
       <div class="about-image">
         <img src="..\src\image copy.png" alt="Campus" />
@@ -126,14 +126,14 @@
 
   <div class="features">
     <div class="card">
-      <img src="7066f16d-cd40-4fe0-b519-791bde4c13ff.png" alt="Club Events" />
+      <img src="..\src\image1.png" alt="Club Events" />
       <h2>Upcoming club events</h2>
       <p>Discover exciting events happening in your club.</p>
       <span class="learn-more" onclick="openModal('modal1')">Learn more</span>
     </div>
 
     <div class="card">
-      <img src="file-3FHwq7adQTtNWwGzLh1Gv9.png" alt="Discussion Page" />
+      <img src="..\src\image3.png" alt="Discussion Page" />
       <h2>Real-time discussion page</h2>
       <p>Join the conversation with your club members online.</p>
       <span class="learn-more" onclick="openModal('modal2')">Learn more</span>
@@ -143,7 +143,7 @@
   <!-- Modal for Upcoming Events -->
   <div id="modal1" class="modal">
     <div class="modal-content">
-      <img src="file-Mb5nz5MGnqeFj2T46LciJ2.png" alt="Club Events" />
+      <img src="..\src\image1.png" alt="Club Events" />
       <div class="text">
         <span class="close" onclick="closeModal('modal1')">&times;</span>
         <h2>Upcoming club events</h2>
@@ -155,7 +155,7 @@
   <!-- Modal for Discussion Page -->
   <div id="modal2" class="modal">
     <div class="modal-content">
-      <img src="file-Ezk8kmHh85MzZQXkfCvF6g.png" alt="Discussion" />
+      <img src="..\src\image3.png" alt="Discussion" />
       <div class="text">
         <span class="close" onclick="closeModal('modal2')">&times;</span>
         <h2>Real-time discussion page</h2>
@@ -171,7 +171,10 @@
         <div class="contact-form">
           <h4>GET IN TOUCH</h4>
           <h2>We'd love to hear from you!</h2>
-          <form>
+          <form
+          action="https://formspree.io/f/xkgrzgkq"
+          method="POST"
+          >
             <label for="name">Name <span class="required">*</span></label>
             <input type="text" id="name" placeholder="Jane Smith" required />
     
@@ -197,7 +200,7 @@
     
         <div class="contact-info">
           <h3>Get in touch</h3>
-          <p>📧 <a href="mailto:krishkumawat02@gmail.com">krishkumawat02@gmail.com</a></p>
+          <p>📧 <a href="mailto:krishkumawat02@gmail.com">clubify.6569@gmail.com</a></p>
     
           <h3>Location</h3>
           <p>📍 <a href="#">Dewas, MP IN</a></p>

@@ -20,23 +20,8 @@ const clubDatabase = {
     admin: "Shreyansh Rangawat, President (shreyansh@college.edu)"
   },
   art: {
-    name: "Natraj Club",
-    image: "..\src\natraj club2.jpg",
-    description: "A heaven for dance artists and creatives.",
-    mission: "To cultivate artistic expression and appreciation among students.",
-    events: ["Sketch Jam", "Gallery Night", "Mural Week"],
-    gallery: [
-      { type: "image", src: "img/art1.jpg" },
-      { type: "image", src: "img/art2.jpg" }
-    ],
-    resources: [
-      { name: "Color Theory Guide", link: "resources/art-guide.pdf" }
-    ],
-    admin: "Pratham Goyal, Coordinator (pratham@college.edu)"
-  },
-  music: {
     name: "Drama Club",
-    image: "..\src\Drama Club.jpg",
+    image: "../src/Drama Club.jpg",
     description: "For students passionate about creating and performing actings and drama.",
     mission: "To bring students together through the joy of dance.",
     events: ["Open acting competition", "Fusion Fest", "Acoustic Jam"],
@@ -48,6 +33,21 @@ const clubDatabase = {
       { name: "Sheet Dance Collection", link: "resources/sheet-music.pdf" }
     ],
     admin: "Rishabh Gayanse, Head (rishabh@college.edu)"
+  },
+  music: {
+    name: "Natraj Club",
+    image: "../src/natraj club2.jpg",
+    description: "A heaven for dance artists and creatives.",
+    mission: "To cultivate artistic expression and appreciation among students.",
+    events: ["Sketch Jam", "Gallery Night", "Mural Week"],
+    gallery: [
+      { type: "image", src: "img/art1.jpg" },
+      { type: "image", src: "img/art2.jpg" }
+    ],
+    resources: [
+      { name: "Color Theory Guide", link: "resources/art-guide.pdf" }
+    ],
+    admin: "Pratham Goyal, Coordinator (pratham@college.edu)"
   }
 };
 
