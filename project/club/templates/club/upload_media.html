@@ -1,0 +1,19 @@
+<!-- templates/club/upload_media.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Upload Media</title>
+</head>
+<body>
+  <h2>Upload Media to {{ user.clubleader.club.name }}</h2>
+  {% if messages %}
+    {% for message in messages %}<p>{{ message }}</p>{% endfor %}
+  {% endif %}
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+  </form>
+  <p><a href="{% url 'leader_dashboard' %}">Back to Dashboard</a></p>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!-- templates/club/create_post.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Club Posts</title>
+</head>
+<body>
+  <h2>Post in {{ user.clubleader.club.name }}</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Post</button>
+  </form>
+
+  <h3>All Posts</h3>
+  <ul>
+    {% for post in posts %}
+      <li><strong>{{ post.author.username }}</strong>: {{ post.content }}<br><small>{{ post.created_at|date:"F d, Y H:i" }}</small></li>
+    {% empty %}
+      <li>No posts yet.</li>
+    {% endfor %}
+  </ul>
+
+  <p><a href="{% url 'leader_dashboard' %}">Back to Dashboard</a></p>
+</body>
+</html>
