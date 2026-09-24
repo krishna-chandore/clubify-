@@ -27,3 +27,10 @@ __pycache__/
 .idea/
 .DS_Store
 Thumbs.db
+# Temporary files
+installed_packages.txt
+requirements_temp.txt
+
+# Local backups
+db_backup_before_deployment.sqlite3
+media_backup_before_deployment.zip
