@@ -1,0 +1,29 @@
+# Database
+db.sqlite3
+*.sqlite3
+
+# Media files
+media/
+
+# Static files
+staticfiles/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Python virtual environment
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

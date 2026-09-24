@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Join Clubs</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/join-clubs.css' %}" />
+</head>
+<body>
+  <div class="main-wrapper">
+    <header>
+      <div class="nav-container">
+        <div class="logo">
+          <img src="{% static 'img/LOGO.png' %}" alt="Clubify Logo" height="50" />
+          <span class="logo-text">CLUBIFY</span>
+        </div>
+        <nav class="nav-links">
+          <a href="{% url 'home' %}#home" class="nav-link">Home</a>
+          <a href="{% url 'home' %}#about" class="nav-link">About</a>
+          <a href="{% url 'home' %}#services" class="nav-link">Services</a>
+          <a href="{% url 'home' %}#event" class="nav-link">Events</a>
+          <a href="{% url 'home' %}#club-features" class="nav-link">How It Works</a>
+          <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+          <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+           {% csrf_token %}
+          </form>
+        </nav>
+        <a href="{% url 'home' %}#contact" class="contact-button">Contact</a>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <section class="club-grid">
+          {% for club in clubs %}
+          <div class="club-card">
+            {% if club.image %}
+              <img src="{{ club.image.url }}" alt="{{ club.name }}">
+            {% else %}
+              <img src="https://via.placeholder.com/300x180.png?text={{ club.name|urlencode }}" alt="{{ club.name }}">
+            {% endif %}
+            <h3>{{ club.name }}</h3>
+            <p>{{ club.description|truncatewords:15 }}</p>
+            <a href="{% url 'club_detail' slug=club.slug %}" class="follow-btn">View Club</a>
+          </div>
+          {% empty %}
+          <p>No clubs available at the moment.</p>
+          {% endfor %}
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-links">
+        <a href="#">Schedule Appointment</a>
+        <a href="#">Complete Intake</a>
+        <a href="#">FAQ</a>
+        <a href="#">Resources</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+      <div class="footer-credit">
+        <a href="#">Web design</a> by <a href="#" class="b12">KRISHNA AND TEAM</a>
+      </div>
+    </footer>
+  </div>
+
+</body>
+</html>

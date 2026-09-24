@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Clubify Login</title>
+  <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+</head>
+<body>
+  <div class="container" id="container">
+
+    <!-- Sign Up Form -->
+    <div class="form-container sign-up-container">
+      <form method="POST" action="{% url 'signup' %}">
+        {% csrf_token %}
+        <div class="logo-container">
+          <img src="{% static 'img/LOGO.png' %}" alt="Clubify Logo" class="clubify-logo" />
+          <span class="clubify-title">CLUBIFY</span>
+        </div>
+        <h1>Create Account</h1>
+
+        {% if signup_errors %}
+          <ul style="color:red; font-size: 14px;">
+            {% for error in signup_errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        <input type="text" name="name" placeholder="Name" value="{{ signup_name|default:'' }}" required />
+        <input type="email" name="email" placeholder="Email" value="{{ signup_email|default:'' }}" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <button type="submit">Register</button>
+        <div class="admin-login-link">
+          <a href="{% url 'club_admin_login' %}">Login as Club Admin</a>
+        </div>
+      </form>
+    </div>
+
+    <!-- Sign In Form -->
+    <div class="form-container sign-in-container">
+      <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="logo-container">
+          <img src="{% static 'img/LOGO.png' %}" alt="Clubify Logo" class="clubify-logo" />
+          <span class="clubify-title">CLUBIFY</span>
+        </div>
+        <h1>Sign in</h1>
+
+        {% if login_error %}
+          <p style="color:red; font-size:14px;">{{ login_error }}</p>
+        {% endif %}
+
+        <input type="email" name="username" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <button type="submit">Sign In</button>
+        <div class="admin-login-link">
+          <a href="{% url 'club_admin_login' %}">Login as Club Admin</a>
+        </div>
+      </form>
+    </div>
+
+    <!-- Overlay Panel -->
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h1>Welcome Back!</h1>
+          <p>To keep connected, please login with your credentials</p>
+          <button class="ghost" id="signIn">Sign In</button>
+        </div>
+        <div class="overlay-panel overlay-right">
+          <h1>Hello, Student!</h1>
+          <p>Enter your personal details and start exploring clubs</p>
+          <button class="ghost" id="signUp">Register</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const signUpBtn = document.getElementById('signUp');
+    const signInBtn = document.getElementById('signIn');
+    const container = document.getElementById('container');
+
+    signUpBtn.addEventListener('click', () => {
+      container.classList.add("right-panel-active");
+    });
+
+    signInBtn.addEventListener('click', () => {
+      container.classList.remove("right-panel-active");
+    });
+  </script>
+</body>
+</html>

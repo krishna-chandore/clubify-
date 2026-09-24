@@ -1,0 +1,162 @@
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: #f2fff5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Container */
+.container {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+  width: 420px;
+  max-width: 90%;
+  padding: 40px 30px;
+  text-align: center;
+}
+
+/* Logo */
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.clubify-logo {
+  height: 45px;
+  margin-right: 10px;
+}
+
+.clubify-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #00a651;
+}
+
+/* Form */
+.admin-login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  font-size: 24px;
+  margin: 10px 0 20px;
+  color: #333;
+}
+
+input {
+  background: #eee;
+  border: none;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 5px;
+}
+
+button {
+  border: none;
+  padding: 12px;
+  background-color: #00a651;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 25px;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #008c44;
+}
+
+/* Back link */
+.back-link {
+  margin-top: 15px;
+  font-size: 13px;
+}
+
+.back-link a {
+  color: #00a651;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.back-link a:hover {
+  text-decoration: underline;
+}
+
+.form-message {
+  color: #d00000;
+  margin: 8px 0;
+}
+
+.recover-details {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.recover-link {
+  color: #1e90ff;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.recover-form {
+  margin-top: 10px;
+}
+
+#recover-form input {
+  margin: 5px 0;
+  padding: 8px;
+  width: 100%;
+}
+
+#recover-form button {
+  padding: 8px 12px;
+  background-color: #1e90ff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  width: 100%;
+}
+
+@media (max-width: 480px) {
+  body {
+    height: auto;
+    min-height: 100dvh;
+    padding: 16px 0;
+    align-items: flex-start;
+  }
+
+  .container {
+    width: calc(100% - 24px);
+    max-width: 420px;
+    padding: 30px 20px;
+  }
+
+  .clubify-title {
+    font-size: 24px;
+  }
+
+  .clubify-logo {
+    height: 40px;
+  }
+
+  input,
+  button {
+    width: 100%;
+  }
+}
+

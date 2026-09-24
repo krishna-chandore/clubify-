@@ -1,0 +1,68 @@
+{% load static %}
+{% comment %} under development page not ready for proper work just an idea pending now for implement {% endcomment %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Create Event</title>
+</head>
+<body>
+    <header>
+    <div class="nav-container">
+      <div class="logo">
+        <img src="{% static 'img/LOGO.png' %}" alt="Clubify Logo" height="50" />
+        <span class="logo-text">CLUBIFY</span>
+      </div>
+      <nav class ="nav-links">
+       <a href="{% url 'home' %}#home" class="nav-link">Home</a>
+       <a href="{% url 'home' %}#about" class="nav-link">About</a>
+       <a href="{% url 'home' %}#services" class="nav-link">Services</a>
+       <a href="{% url 'home' %}#event"class="nav-link">Events</a>
+       <a href="{% url 'home' %}#club-features" class="nav-link">How It Works</a>
+      <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+      <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+       {% csrf_token %}
+      </form>
+      </nav>
+      <a href="{% url 'home' %}#contact" class="contact-button">Contact</a>
+    </div>
+  </header>
+
+<div class="event-form-container">
+
+    <div class="event-form-card">
+
+        <h1>📅 Manage Events</h1>
+
+        <p>Create a new event for your club.</p>
+
+        <form method="post" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <div class="edit-actions">
+
+                <button type="submit"
+                        class="save-btn">
+
+                    Save Event
+
+                </button>
+
+                <a href="{% url 'home' %}"
+                   class="cancel-btn">
+
+                    Cancel
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+</body>
+</html>

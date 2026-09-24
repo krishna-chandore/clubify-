@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Club Admin Login</title>
+  <link rel="stylesheet" href="{% static 'css/club_admin_login.css' %}" />
+</head>
+<body>
+  <div class="container">
+    <form method="POST" action="{% url 'club_admin_login' %}" class="admin-login-form">
+      {% csrf_token %}
+      <div class="logo-container">
+        <img src="{% static 'img/LOGO.png' %}" alt="Clubify Logo" class="clubify-logo" />
+        <span class="clubify-title">CLUBIFY</span>
+      </div>
+      <h1>Club Admin Login</h1>
+      
+      <!-- Show messages -->
+      {% if messages %}
+        {% for message in messages %}
+          <p class="form-message">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+
+      <input type="text" name="username" placeholder="Username or Email" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <input type="text" name="admin_key" placeholder="Admin Key" required />
+
+<button type="submit">Login</button>
+
+      <div class="back-link">
+      <a href="{% url 'login' %}">← Back to Student Login</a>
+      </div>
+
+    </form>
+      <details class="recover-details">
+        <summary class="recover-link">Forgot Admin Key?</summary>
+        <div id="recover-form" class="recover-form">
+          <form method="POST">
+              {% csrf_token %}
+              <input type="email" name="recovery_email" placeholder="Enter your admin email" required>
+              <button type="submit" name="recover_key">Send Admin Key</button>
+          </form>
+        </div>
+      </details>
+  </div>
+</body>
+</html>

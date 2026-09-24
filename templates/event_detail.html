@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{ event.title }} | Clubify</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+<body>
+  <header>
+    <div class="nav-container">
+      <div class="logo">
+        <img src="{% static 'img/LOGO.png' %}" alt="Clubify Logo" height="50" />
+        <span class="logo-text">CLUBIFY</span>
+      </div>
+      <nav class="nav-links">
+        <a href="{% url 'home' %}" class="nav-link">Home</a>
+        <a href="{% url 'home' %}#contact" class="nav-link">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="event-detail-container">
+    <div class="event-detail-card">
+      <img src="{{ event.banner.url }}" alt="{{ event.title }}" class="event-detail-banner" />
+      <div class="event-detail-content">
+        <h1>{{ event.title }}</h1>
+        <p class="event-detail-date">{{ event.date_time|date:"F j, Y" }} at {{ event.date_time|time:"g:i A" }}</p>
+        <p class="event-detail-description">{{ event.description }}</p>
+        <a href="{% url 'home' %}" class="back-button">← Back to Events</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-credit">
+      <p>© {% now "Y" %} Clubify. Built by Krishna and Team.</p>
+    </div>
+  </footer>
+</body>
+</html>

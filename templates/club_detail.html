@@ -1,0 +1,568 @@
+{% load static %}
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{ club.name }} - Club Details</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/club-detail.css' %}" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet" />
+
+  <style>
+    /* ── Stats bar ───────────────────────────────────────────── */
+    .club-stats {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      margin-top: 14px;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      position: relative;
+    }
+
+    .stat-item + .stat-item::before {
+      content: "";
+      position: absolute;
+      left: -14px; top: 50%;
+      transform: translateY(-50%);
+      height: 30px; width: 1px;
+      background: rgba(255,255,255,0.3);
+    }
+
+    .stat-number {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+      letter-spacing: -0.5px;
+      transition: transform 0.15s ease;
+    }
+    .stat-item:hover .stat-number { transform: scale(1.1); }
+
+    .stat-label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.72);
+      margin-top: 4px;
+    }
+
+    /* pulsing LIVE badge */
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.38);
+      border-radius: 999px;
+      padding: 1px 7px;
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.06em;
+    }
+    .live-badge::before {
+      content: "";
+      display: inline-block;
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #6effa0;
+      animation: blink 1.4s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%,100% { opacity:1; } 50% { opacity:0.2; }
+    }
+
+    /* ── Join / Leave button states ─────────────────────────── */
+    .join-btn,
+    .leave-btn {
+      padding: 6px 22px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: 2px solid #fff;
+      transition: background 0.2s, color 0.2s;
+    }
+    .join-btn  { background: #fff; color: #1e8c3a; }
+    .join-btn:hover  { background: transparent; color: #fff; }
+    .leave-btn { background: transparent; color: #fff; }
+    .leave-btn:hover { background: rgba(255,255,255,0.15); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-container">
+      <div class="logo">
+        <img src="{% static 'img/LOGO.png' %}" alt="Clubify Logo" height="50" />
+        <span class="logo-text">CLUBIFY</span>
+      </div>
+      <nav class="nav-links">
+        <a href="{% url 'home' %}#home"            class="nav-link">Home</a>
+        <a href="{% url 'home' %}#about"           class="nav-link">About</a>
+        <a href="{% url 'home' %}#services"        class="nav-link">Services</a>
+        <a href="{% url 'home' %}#event"           class="nav-link">Events</a>
+        <a href="{% url 'join_clubs' %}" class="nav-link">Join Clubs</a>
+        <a href="{% url 'home' %}#club-features"   class="nav-link">How It Works</a>
+        <a href="#" class="nav-link"
+           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+        <form id="logout-form" action="{% url 'logout' %}" method="post" style="display:none;">
+          {% csrf_token %}
+        </form>
+      </nav>
+      <a href="{% url 'home' %}#contact" class="contact-button">Contact</a>
+    </div>
+  </header>
+
+  <section class="club-banner">
+    <div class="banner-overlay">
+      {% if club.image %}
+        <img src="{{ club.image.url }}" class="club-avatar" alt="{{ club.name }}">
+      {% else %}
+        <img src="https://via.placeholder.com/300x180.png?text={{ club.name|urlencode }}"
+             class="club-avatar" alt="{{ club.name }}">
+      {% endif %}
+      <div class="club-info">
+        {% if edit_name %}
+        <form method="post"
+              enctype="multipart/form-data"
+              class="club-name-form">
+            {% csrf_token %}
+            <input type="text"
+                   name="club_name"
+                   value="{{ club.name }}"
+                   class="club-name-input">
+            <input type="file"
+                   name="club_image">
+            <div class="edit-actions">
+                <button type="submit"
+                        name="save_name"
+                        class="save-btn">
+                    Save
+                </button>
+                <a href="{% url 'club_detail' club.slug %}"
+                   class="cancel-btn">
+                    Cancel
+                </a>
+            </div>
+        </form>
+        {% else %}
+        <div class="club-title-row">
+            <h1>{{ club.name }}</h1>
+            {% if is_admin %}
+                <a href="?edit=name" class="name-edit-btn">
+                  🖉
+              </a>
+            {% endif %}
+        </div>
+        {% endif %}
+
+         <!-- Join / Leave — single POST form, button swaps based on membership -->
+        <form method="post" style="display:inline;">
+          {% csrf_token %}
+          {% if is_member %}
+            <button type="submit" name="leave_club" class="leave-btn">✓ Joined</button>
+          {% else %}
+            <button type="submit" name="join_club"  class="join-btn">Join</button>
+          {% endif %}
+        </form>
+
+        <!-- ★ Instagram-style stats ★ -->
+        <div class="club-stats">
+          <div class="stat-item">
+            <span class="stat-number" data-count="{{ member_count }}">{{ member_count }}</span>
+            <span class="stat-label">👥 Members</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" data-count="{{ upcoming_events_count }}">{{ upcoming_events_count }}</span>
+            <span class="stat-label">
+              🗓 Upcoming Events
+              {% if upcoming_events_count > 0 %}
+                <span class="live-badge">LIVE</span>
+              {% endif %}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="club-main">
+
+    <section class="club-section">
+    {% if edit_about %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="section-header">
+            <h2>About the Club</h2>
+        </div>
+        <textarea
+            name="description"
+            class="edit-textarea"
+            rows="5">{{ club.description }}</textarea>
+        <div class="edit-actions">
+            <button type="submit"
+                    name="save_about"
+                    class="save-btn">
+                Save
+            </button>
+            <a href="{% url 'club_detail' club.slug %}"
+               class="cancel-btn">
+               Cancel
+            </a>
+        </div>      
+    </form>
+    {% else %}
+    <div class="section-header">
+        <h2>About the Club</h2>
+        {% if is_admin %}
+          <form method="get" style="display:inline;">
+              <input type="hidden" name="edit" value="about">         
+
+              <button type="submit" class="edit-btn">
+                  ✏ Edit
+              </button>
+          </form>
+        {% endif %}
+    </div>
+    <p>{{ club.description }}</p>
+    {% endif %}
+    </section>
+
+    <section class="club-section">
+    {% if edit_mission %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="section-header">
+            <h2>📌 Mission</h2>
+        </div>
+        <textarea
+            name="mission"
+            class="edit-textarea"
+            rows="5">{{ club.mission }}</textarea>
+        <div class="edit-actions">
+            <button type="submit"
+                    name="save_mission"
+                    class="save-btn">
+                Save
+            </button>
+            <a href="{% url 'club_detail' club.slug %}"
+               class="cancel-btn">
+                Cancel
+            </a>
+        </div>
+    </form>
+    {% else %}
+    <div class="section-header">
+        <h2>📌 Mission</h2>
+        {% if is_admin %}
+            <a href="?edit=mission"
+               class="edit-btn">
+               ✏ Edit
+            </a>
+        {% endif %}
+    </div>
+    <p>{{ club.mission }}</p>
+    {% endif %}
+    </section>
+
+    <section class="club-section">
+    {% if edit_past_events %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="section-header">
+            <h2>🗓 Past Events</h2>
+        </div>
+        <textarea
+            name="past_events"
+            class="edit-textarea"
+            rows="6">{{ club.past_events }}</textarea>
+        <small>
+            Enter one event per line
+        </small>
+        <div class="edit-actions">
+            <button type="submit"
+                    name="save_past_events"
+                    class="save-btn">
+                Save
+            </button>
+            <a href="{% url 'club_detail' club.slug %}"
+               class="cancel-btn">
+                Cancel
+            </a>
+        </div>
+    </form>
+    {% else %}
+    <div class="section-header">
+        <h2>🗓 Past Events</h2>
+        {% if is_admin %}
+            <a href="?edit=past-events"
+               class="edit-btn">
+                ✏ Edit
+            </a>
+        {% endif %}
+    </div>
+    {% if club.past_events %}
+        <ul class="event-list">
+            {% for ev in club.past_events.splitlines %}
+                <li>{{ ev }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No events listed.</p>
+    {% endif %}
+    {% endif %}
+    </section>
+
+      
+    <section class="club-section">
+    
+    {% if edit_gallery %}
+    
+        <div class="section-header">
+        
+            <h2>📸 Club Gallery</h2>
+        
+        </div>
+      
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="media_file">
+            <div class="edit-actions">
+            
+                <button
+                    type="submit"
+                    name="upload_media"
+                    class="save-btn">
+                    Upload
+                </button>
+                <a href="{% url 'club_detail' club.slug %}"
+                   class="cancel-btn">
+                    Done
+                </a>
+            </div>
+        </form>
+        <hr>
+        <div class="media-grid">
+            {% for media in club.gallery_media.all %}
+                <div class="gallery-admin-item">
+                    {% if media.file.url|endswith:".jpg" or media.file.url|endswith:".png" or media.file.url|endswith:".jpeg" %}
+                        <img src="{{ media.file.url }}"
+                             class="gallery-item">
+                    {% elif media.file.url|endswith:".mp4" or media.file.url|endswith:".webm" %}
+                        <video controls
+                               class="gallery-video">
+                            <source src="{{ media.file.url }}"
+                                    type="video/mp4">
+                        </video>
+                    {% endif %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <input
+                            type="hidden"
+                            name="media_id"
+                            value="{{ media.id }}">
+                        <button
+                            type="submit"
+                            name="delete_media"
+                            class="cancel-btn">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+            {% empty %}
+                <p>No gallery media available.</p>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="section-header">
+            <h2>📸 Club Gallery</h2>
+            {% if is_admin %}
+                <a href="?edit=gallery"
+                   class="edit-btn">
+        
+                    ✏ Edit
+                </a>
+            {% endif %}
+        </div>
+        <div class="media-grid" id="club-gallery">
+            {% for media in club.gallery_media.all %}
+                {% if media.file.url|endswith:".jpg" or media.file.url|endswith:".png" or media.file.url|endswith:".jpeg" %}
+                    <a href="{{ media.file.url }}"
+                       data-lightbox="club-gallery">
+                        <img src="{{ media.file.url }}"
+                             alt="Gallery Image"
+                             class="gallery-item">
+                    </a>
+                {% elif media.file.url|endswith:".mp4" or media.file.url|endswith:".webm" %}
+                    <video controls
+                           class="gallery-video"
+                           preload="metadata">
+                        <source src="{{ media.file.url }}">
+                    </video>
+                {% endif %}
+            {% empty %}
+                <p>No gallery media available.</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+    </section>
+
+
+    <section class="club-section">
+    {% if edit_resources %}
+    <div class="section-header">
+    
+        <h2>📄 Resources</h2>
+    </div>
+    <form method="post"
+          enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="text"
+               name="title"
+               placeholder="Resource Title"
+               class="edit-input">
+        <br><br>
+        <input type="url"
+               name="link"
+               placeholder="Resource Link (optional)"
+               class="edit-input">
+        <br><br>
+        <input type="file"
+               name="file">
+        <div class="edit-actions">
+            <button type="submit"
+                    name="add_resource"
+                    class="save-btn">
+                Add Resource
+            </button>
+            <a href="{% url 'club_detail' club.slug %}"
+               class="cancel-btn">
+                Done
+            </a>
+        </div>
+    </form>
+    <hr>
+    <h3>Current Resources</h3>
+    {% for resource in club.resources.all %}
+    <div class="resource-row">
+        <span>
+            {{ resource.title }}
+        </span>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden"
+                   name="resource_id"
+                   value="{{ resource.id }}">
+            <button type="submit"
+                    name="delete_resource"
+                    class="cancel-btn">
+                Delete
+            </button>
+        </form>
+    </div>
+    {% empty %}
+    <p>No resources available.</p>
+    {% endfor %}
+    {% else %}
+
+    <div class="section-header">
+        <h2>📄 Resources</h2>
+        {% if is_admin %}
+            <a href="?edit=resources"
+               class="edit-btn">
+                ✏ Edit
+            </a>
+        {% endif %}
+    </div>
+    <ul class="resource-list">
+    {% for resource in club.resources.all %}
+    <li>
+    {% if resource.file %}
+    <a href="{{ resource.file.url }}" target="_blank" rel="noopener noreferrer">
+       {{ resource.title }}
+    </a>
+    {% elif resource.link %}
+    <a href="{{ resource.link }}" target="_blank" rel="noopener noreferrer">
+       {{ resource.title }}
+    </a>
+    {% endif %}
+    </li>
+    {% empty %}
+    <li>No resources available.</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    </section>
+
+    <section class="club-section">
+    
+    {% if edit_admin %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="section-header">
+            <h2>👤 Admin Info</h2>
+        </div>
+        <input
+            type="text"
+            name="admin_name"
+            value="{{ club.admin_name }}"
+            class="edit-input">
+        <div class="edit-actions">
+            <button type="submit"
+                    name="save_admin"
+                    class="save-btn">
+                Save
+            </button>
+            <a href="{% url 'club_detail' club.slug %}"
+               class="cancel-btn">
+                Cancel
+            </a>
+        </div>
+    </form>
+    {% else %}
+    <div class="section-header">
+        <h2>👤 Admin Info</h2>
+        {% if is_admin %}
+            <a href="?edit=admin"
+               class="edit-btn">
+               ✏ Edit
+            </a>
+        {% endif %}
+    </div>
+    <p>{{ club.admin_name }}</p>
+    {% endif %}
+    </section>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+
+  <script>
+    /* Count-up animation */
+    document.addEventListener("DOMContentLoaded", () => {
+      const easeOut = t => 1 - Math.pow(1 - t, 3);
+      document.querySelectorAll(".stat-number[data-count]").forEach(el => {
+        const target = parseInt(el.dataset.count, 10) || 0;
+        if (!target) return;
+        const duration = 1100, start = performance.now();
+        (function tick(now) {
+          const p = Math.min((now - start) / duration, 1);
+          el.textContent = Math.round(easeOut(p) * target).toLocaleString();
+          if (p < 1) requestAnimationFrame(tick);
+        })(performance.now());
+      });
+    });
+  </script>
+</body>
+</html>

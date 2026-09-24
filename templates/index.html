@@ -1,0 +1,396 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clubify</title>
+  <link rel="stylesheet" href="{% static 'css/style.css'%}"/>
+  <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
+      rel="stylesheet"
+  />
+</head>
+<body>
+      <!-- Show messages -->
+      {% if messages %}
+        {% for message in messages %}
+          <p style="color:red;">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+
+  {% if success %}
+   <div class="success-msg">Your message has been sent successfully!</div>
+  {% endif %}
+  <header>
+    <div class="nav-container">
+      <div class="logo">
+        <img src="{% static 'img/LOGO.png' %}" alt="Clubify Logo" height="50" />
+        <span class="logo-text">CLUBIFY</span>
+      </div>
+      <nav class ="nav-links">
+       <a href="#home" class="nav-link">Home</a>
+       <a href="#about" class="nav-link">About</a>
+       <a href="#services" class="nav-link">Services</a>
+       <a href="#event"class="nav-link">Events</a>
+       <a href="#club-features" class="nav-link">How It Works</a>
+      <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+      <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+       {% csrf_token %}
+      </form>
+      </nav>
+      <a href="#contact" class="contact-button">Contact</a>
+    </div>
+  </header>
+
+
+
+  <section class="hero-section" id="home" 
+    style="background-image: url('{% static 'img/background_collage.jpeg' %}'); 
+                background-size: cover; 
+                background-position: center; 
+                background-attachment: fixed; 
+                background-color: rgba(65, 78, 78, 0.5); 
+                background-blend-mode: overlay;"/>
+    <div class="hero-content">
+      <h1>Join your club today</h1>
+      <p>Explore collaborative clubs and events</p>
+      <a href="{% url 'join_clubs'%}" class="hero-button">JOIN NOW!</a>
+    </div>
+  </section>
+  <section class="about-section" id="about">
+    <div class="about-container">
+      <div class="about-text">
+        <h4>JOIN THE CLUBIFY COMMUNITY</h4>
+        <h2>Connect, collaborate, create!</h2>
+        <p>
+          Welcome to Clubify, the ultimate platform designed for college students to connect, collaborate, and create unforgettable experiences. Explore multiple club pages that feature upcoming events, valuable resources, and profiles of club leaders. Engage in real-time discussions and share your thoughts with fellow members through daily posts. With Clubify, you're not just part of a club; you're part of a vibrant community that empowers you to make the most out of your college journey. Join us and elevate your college experience!
+        </p>
+        <a href="#contact">Get in touch</a>
+      </div>
+      <div class="about-image">
+        <img src="{%static 'img\image copy.png'%}" alt="Campus" />
+      </div>
+    </div>
+  </section>
+  <section class="features-section" id="services">
+    <div class="features-header">
+      <h4>ENGAGE AND CONNECT</h4>
+      <h2>Join clubs, share ideas, and grow together!</h2>
+    </div>
+    <div class="features-cards">
+      <div class="feature-card">
+        <img src="{% static 'img/image1.png' %}" alt="Club Event" />
+        <div class="feature-content">
+          <h3><span>Upcoming club events</span> <span class="arrow">›</span></h3>
+          <p>Stay informed about the latest club events happening at Clubify.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <img src="{%static 'img\image2.png'%}" alt="Resources" />
+        <div class="feature-content">
+          <h3>Club resources <span class="arrow">›</span></h3>
+          <p>Access valuable resources tailored for club members.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <img src="{% static 'img/image3.png' %}" alt="Discussion" />
+        <div class="feature-content">
+          <h3>Real-time discussion page <span class="arrow">›</span></h3>
+          <p>Engage in lively discussions with club members in real time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- event section -->
+<section class="event-section" id="event">
+  <p class="event-tag">JOIN OUR CLUB EVENTS</p>
+  <h2 class="event-heading">Stay updated with the latest happenings!</h2>
+  <hr />
+
+  <!-- DEBUG: shows number of events loaded -->
+  <p style="text-align:center; font-style: italic;">Total upcoming events: {{ events|length }}</p>
+
+  <div class="event-row">
+    {% for event in events %}
+    <div class="event-card">
+      {% if event.banner %}
+        <img src="{{ event.banner.url }}" alt="{{ event.title }}" class="event-image" />
+      {% endif %}
+      <div class="event-info">
+        <h3 class="event-title">{{ event.title }}</h3>
+        <p class="event-date">{{ event.date_time|date:"F j, Y" }} at {{ event.date_time|time:"g:i A" }}</p>
+        <p class="event-description">
+          {{ event.description|truncatechars:100 }}
+          {% if event.description|length > 100 %}
+            <a href="{% url 'event_detail' event.id %}" class="event-link">Learn more</a>
+          {% endif %}
+        </p>
+      </div>
+    </div>
+    {% empty %}
+    <p style="text-align: center;">No upcoming events at the moment.</p>
+    {% endfor %}
+  </div>
+
+{% if is_admin %}
+
+<div class="event-admin-actions">
+
+    <a href="?edit=event"
+       class="event-manage-btn">
+        Manage Events
+    </a>
+
+</div>
+
+{% if edit_event %}
+
+<div class="event-management-panel">
+
+    <h2>📅 Event Management</h2>
+
+    <!-- Create Event -->
+
+    <form method="post"
+          enctype="multipart/form-data"
+          class="event-create-form">
+
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>Title</label>
+            {{ event_form.title }}
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+            {{ event_form.description }}
+        </div>
+
+        <div class="form-group">
+            <label>Date & Time</label>
+            {{ event_form.date_time }}
+        </div>
+
+        <div class="form-group">
+            <label>Banner</label>
+            {{ event_form.banner }}
+        </div>
+
+        <div class="edit-actions">
+
+            <button
+                type="submit"
+                name="event_submit"
+                class="save-btn">
+
+                {% if editing_event %}
+
+                    Update Event
+
+                {% else %}
+
+                    Create Event
+
+                {% endif %}
+            </button>
+                      
+               {% if editing_event %}
+                      
+            <a href="?edit=event"
+               class="cancel-btn">
+                      
+                Cancel Edit
+                      
+            </a>
+            
+            {% else %}
+            
+            <a href="{% url 'home' %}"
+               class="cancel-btn">
+            
+                Done
+            
+            </a>
+            
+            {% endif %}
+
+        </div>
+
+    </form>
+
+    <hr>
+
+    <h3>Existing Events</h3>
+
+    {% for event in managed_events %}
+
+    <div class="event-manage-card">
+
+        <div>
+
+            <strong>{{ event.title }}</strong>
+
+            <br>
+
+            {{ event.date_time }}
+
+        </div>
+
+        <div class="event-manage-actions">
+
+              <a href="?edit=event&event_id={{ event.id }}"
+                 class="event-edit-btn">
+                  Edit
+              </a>
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                <input
+                    type="hidden"
+                    name="event_id"
+                    value="{{ event.id }}">
+
+                <button
+                    type="submit"
+                    name="delete_event"
+                    class="cancel-btn">
+
+                    Delete
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
+
+{% endif %}
+
+<hr />
+</section>
+
+  <!-- Club Features Section -->
+<section id="club-features" class="detail-section">
+  <p class="section-title">Join the club experience</p>
+  <h1>Connect, collaborate, and create together!</h1>
+
+  <div class="features">
+    <div class="card">
+      <img src="{% static 'img/image1.png' %}" alt="Club Events" />
+      <h2>Upcoming club events</h2>
+      <p>Discover exciting events happening in your club.</p>
+      <span class="learn-more" onclick="openModal('modal1')">Learn more</span>
+    </div>
+
+    <div class="card">
+      <img src="{% static 'img/image3.png' %}" alt="Discussion Page" />
+      <h2>Real-time discussion page</h2>
+      <p>Join the conversation with your club members online.</p>
+      <span class="learn-more" onclick="openModal('modal2')">Learn more</span>
+    </div>
+  </div>
+
+  <!-- Modal for Upcoming Events -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <img src="{% static 'img/image1.png' %}" alt="Club Events" />
+      <div class="text">
+        <span class="close" onclick="closeModal('modal1')">&times;</span>
+        <h2>Upcoming club events</h2>
+        <p>Stay in the loop with all the exciting events happening at your club! Our Upcoming Club Events page is designed to keep you informed about everything from workshops and guest lectures to social gatherings and competitions. Each event includes detailed information, including date, time, location, and how to participate. Whether you're looking to enhance your skills, network with peers, or simply have fun, this page is your go-to resource. Join your fellow members and make the most of your club experience by attending these events that matter to you.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for Discussion Page -->
+  <div id="modal2" class="modal">
+    <div class="modal-content">
+      <img src="{% static 'img/image3.png' %}" alt="Discussion" />
+      <div class="text">
+        <span class="close" onclick="closeModal('modal2')">&times;</span>
+        <h2>Real-time discussion page</h2>
+        <p>Engage actively with your club members through our Real-Time Discussion Page. This platform offers you a space to share ideas, ask questions, and collaborate on projects. Whether you want to discuss a recent event, seek advice on a project, or brainstorm new ideas, this page is the perfect forum. Members can post comments, reply to others, and interact in real-time, fostering a vibrant community. Don’t miss the opportunity to connect with like-minded individuals and enhance your club experience with lively discussions and valuable insights.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <!-- conatact form -->
+    <section class="contact-section" id="contact">
+      <div class="contact-container">
+        <div class="contact-form">
+          <h4>GET IN TOUCH</h4>
+          <h2>We'd love to hear from you!</h2>
+          <form method="POST" action="{% url 'contact' %}">
+            {% csrf_token %} 
+            <label for="name">Name <span class="required">*</span></label>
+            <input  type="text" name="name" id="name" placeholder="Jane Smith" required />
+    
+            <label for="email">Email address <span class="required">*</span></label>
+            <input type="email" name="email" id="email" placeholder="email@website.com" required />
+    
+            <label for="phone">Phone number <span class="required">*</span></label>
+            <input type="tel"  name="phone" id="phone" placeholder="555-555-5555" required />
+    
+            <label for="message">Message</label>
+            <textarea name="message" id="message" rows="5" placeholder="Your message..."></textarea>
+    
+            <div class="checkbox">
+              <input type="checkbox" id="consent" name="consent" value="1" required />
+              <label for="consent">
+                I allow this website to store my submission so they can respond to my inquiry. *
+              </label>
+            </div>
+    
+            <button type="submit">SUBMIT</button>
+          </form>
+        </div>
+    
+        <div class="contact-info">
+          <h3>Get in touch</h3>
+          <p>📧 <a href="mailto:krishkumawat02@gmail.com">krishkumawat02@gmail.com</a></p>
+    
+          <h3>Location</h3>
+          <p>📍 <a href="#">Dewas, MP IN</a></p>
+    
+          <h3>Hours</h3>
+          <ul class="hours-list">
+            <li><span>Monday</span> <span>9:00am – 10:00pm</span></li>
+            <li><span>Tuesday</span> <span>9:00am – 10:00pm</span></li>
+            <li><span>Wednesday</span> <span>9:00am – 10:00pm</span></li>
+            <li><span>Thursday</span> <span>9:00am – 10:00pm</span></li>
+            <li><span>Friday</span> <span>9:00am – 10:00pm</span></li>
+            <li><span>Saturday</span> <span>9:00am – 6:00pm</span></li>
+            <li><span>Sunday</span> <span>9:00am – 12:00pm</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    
+    <script src="{% static 'js/script.js' %}"></script>
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="#">Schedule Appointment</a>
+    <a href="#">Complete Intake</a>
+    <a href="#">FAQ</a>
+    <a href="#">Resources</a>
+    <a href="#">Privacy Policy</a>
+  </div>
+  <div class="footer-credit">
+    <a href="#">Web design</a> by <a href="#" class="b12">KRISHNA AND TEAM</a>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,411 @@
+/* ===== Base Layout and Typography ===== */
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f8f9fa;
+  color: #222;
+  margin: 0;
+}
+
+/* ===== Header and Banner ===== */
+.club-banner {
+  height: 300px;
+  background: linear-gradient(120deg, #1db954, #1aa34a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 80px;
+  color: #fff;
+}
+
+.banner-overlay {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  text-align: left;
+  max-width: 1000px;
+  width: 100%;
+  padding: 0 16px;
+}
+
+.club-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  object-fit: cover;
+  background: #ddd;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+.club-avatar:hover {
+  transform: scale(1.05);
+}
+
+.club-info h1 {
+  margin: 0 0 8px;
+  font-size: 2rem;
+}
+
+/* ===== Join Button ===== */
+.join-btn {
+  padding: 8px 20px;
+  font-weight: bold;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  color: #1db954;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid #1db954;
+}
+.join-btn:hover {
+  background-color: #eafbea;
+}
+/* ===== Main Content ===== */
+.club-main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 60px 20px 40px;
+}
+
+/* ===== Sections ===== */
+.club-section {
+  background: #fff;
+  padding: 24px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+.club-section h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #1db954;
+  /* border-bottom: 2px solid #e0f5e9;
+  padding-bottom: 8px;
+  margin-bottom: 16px; */
+}
+
+/* ===== Events ===== */
+.event-list {
+  padding-left: 20px;
+}
+.event-list li {
+  margin-bottom: 6px;
+}
+
+/* ===== Gallery Section (Upgraded) ===== */
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  justify-items: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.media-grid a {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease;
+}
+
+.media-grid img {
+  display: block;
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.media-grid img:hover {
+  transform: scale(1.04);
+}
+
+.gallery-video {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  background: #000;
+}
+
+/* ===== Resources ===== */
+.resource-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+.resource-list li {
+  margin-bottom: 10px;
+}
+.resource-list a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+.resource-list a:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+
+/* ===== Responsive Design ===== */
+@media screen and (max-width: 768px) {
+  .banner-overlay {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .club-avatar {
+    width: 80px;
+    height: 80px;
+  }
+
+  .club-info h1 {
+    font-size: 1.6rem;
+  }
+
+  .club-main {
+    padding: 20px 16px;
+  }
+
+  .media-grid {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+}
+
+/* ===== Optional: Club-Specific Themes ===== */
+.club-tech .club-banner {
+  background: linear-gradient(120deg, #007cf0, #00dfd8);
+}
+
+.club-music .club-banner {
+  background: linear-gradient(120deg, #ff758c, #ff7eb3);
+}
+
+.club-dance .club-banner {
+  background: linear-gradient(120deg, #ff9a9e, #fad0c4);
+}
+
+
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    width:100%;
+
+    border-bottom:2px solid #e0f5e9;
+    padding-bottom:8px;
+    margin-bottom:16px;
+}
+
+/* .section-header h2{
+    margin:0;
+
+} */
+.edit-btn{
+    text-decoration:none;
+    color:#20b857;
+    border:2px solid #20b857;
+    padding:8px 16px;
+    border-radius:10px;
+    font-weight:600;
+    background:#f5fff8;
+}
+
+.edit-btn:hover{
+    background:#20b857;
+    color:white;
+}
+
+.edit-textarea{
+    width:100%;
+    min-height:120px;
+
+    padding:12px;
+
+    border:2px solid #d9eedd;
+    border-radius:10px;
+
+    font-size:1rem;
+    line-height:1.6;
+
+    resize:vertical;
+
+    text-align:left !important;
+
+
+    font-family:inherit;
+
+    box-sizing:border-box;
+}.edit-actions{
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    gap:10px;
+    margin-top:5px;
+}
+
+.save-btn,
+.cancel-btn{
+    width:100px;
+    height:42px;
+
+    padding:0;
+    margin:0;
+
+    display:inline-flex;
+
+    justify-content:center;
+    align-items:center;
+
+    font-size:14px;
+    font-weight:600;
+
+    border-radius:8px;
+
+    box-sizing:border-box;
+
+    text-decoration:none;
+
+    vertical-align:middle;
+}
+
+.save-btn{
+    background:#28c428;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+.save-btn:hover{
+    background:#22a822;
+}
+
+.cancel-btn{
+    background:#dc3545;
+    color:white;
+    border:none;
+}
+
+.cancel-btn:hover{
+    background:#bb2d3b;
+}
+.edit-input{
+    width:100%;
+    padding:12px;
+    border:2px solid #d9eedd;
+    border-radius:8px;
+    font-size:16px;
+    box-sizing:border-box;
+}
+.resource-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+    padding:10px;
+    border:1px solid #eee;
+    border-radius:8px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.05);
+}
+.gallery-admin-item{
+    background:#fff;
+
+    padding:12px;
+
+    border:1px solid #e8e8e8;
+    border-radius:10px;
+
+    margin-bottom:15px;
+}
+.gallery-admin-item img,
+.gallery-admin-item video{
+    max-width:250px;
+    border-radius:10px;
+    display:block;
+    margin-bottom:10px;
+}
+.club-title-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.name-edit-btn{
+    color:white;
+    text-decoration:none;
+    font-size:20px;
+
+    position:relative;
+    top:-13px;      /* moves up */
+
+    margin-left:0px;
+
+    display:inline-block;
+}
+
+.club-name-input{
+    width:280px;
+    padding:10px 14px;
+
+    border:2px solid #d9eedd;
+    border-radius:8px;
+
+    font-size:16px;
+
+    box-sizing:border-box;
+}
+@media screen and (max-width: 768px) {
+  .club-banner {
+    height: auto;
+    min-height: 300px;
+    padding: 100px 16px 30px;
+  }
+
+  .banner-overlay {
+    gap: 14px;
+  }
+
+  .club-info {
+    width: 100%;
+  }
+
+  .club-title-row {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .club-name-input {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .club-stats {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .section-header {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .edit-actions {
+    flex-wrap: wrap;
+  }
+
+  .resource-row {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+}
