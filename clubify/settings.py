@@ -30,6 +30,7 @@ DEBUG = os.getenv('DJANGO_DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = [
     "clubify-three.vercel.app",
+    os.getenv("VERCEL_URL", ""),
 ]
 
 
@@ -185,6 +186,7 @@ X_FRAME_OPTIONS = 'DENY'
 
 CSRF_TRUSTED_ORIGINS = [
     "https://clubify-three.vercel.app",
+    f"https://{os.getenv('VERCEL_URL')}",
 ]
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
