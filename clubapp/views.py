@@ -417,7 +417,7 @@ def club_admin_login(request):
 
                     if raw_key:
                         key_messages.append(
-                            f"Club: {club.club_name}\n"
+                            f"Club: {club}\n"
                             f"Admin Key: {raw_key}"
                         )
 
