@@ -6,9 +6,9 @@ from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
-from cloudinary_storage.storage import VideoMediaCloudinaryStorage
 
 from .admin_key_crypto import encrypt_admin_key
+from .storage import GalleryMediaCloudinaryStorage
 
 
 MAX_IMAGE_SIZE = 5 * 1024 * 1024
@@ -55,14 +55,21 @@ class Club(models.Model):
     slug = models.SlugField(unique=True, blank=True)
     description = models.TextField()
     mission = models.TextField(blank=True)
+
     image = models.ImageField(
         upload_to='club_images/',
         blank=True,
         null=True,
         validators=[validate_image_size],
     )
-    past_events = models.TextField(blank=True, help_text='Add each event on a new line.')
+
+    past_events = models.TextField(
+        blank=True,
+        help_text='Add each event on a new line.',
+    )
+
     admin_name = models.CharField(max_length=100)
+
     admin_user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -70,13 +77,19 @@ class Club(models.Model):
         blank=True,
         related_name='administered_clubs',
     )
-    admin_key = models.CharField(max_length=256, default=generate_unique_admin_key)
+
+    admin_key = models.CharField(
+        max_length=256,
+        default=generate_unique_admin_key,
+    )
 
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)
+
         if self.admin_key:
             self.admin_key = encrypt_admin_key(self.admin_key)
+
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -88,12 +101,24 @@ class Club(models.Model):
 
     @property
     def upcoming_events_count(self):
-        return self.events.filter(date_time__gte=timezone.now()).count()
+        return self.events.filter(
+            date_time__gte=timezone.now()
+        ).count()
 
 
 class ClubMembership(models.Model):
-    club = models.ForeignKey(Club, on_delete=models.CASCADE, related_name='memberships')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='club_memberships')
+    club = models.ForeignKey(
+        Club,
+        on_delete=models.CASCADE,
+        related_name='memberships',
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='club_memberships',
+    )
+
     joined_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -104,15 +129,26 @@ class ClubMembership(models.Model):
 
 
 class ClubGalleryMedia(models.Model):
-    club = models.ForeignKey(Club, on_delete=models.CASCADE, related_name='gallery_media')
+    club = models.ForeignKey(
+        Club,
+        on_delete=models.CASCADE,
+        related_name='gallery_media',
+    )
+
     file = models.FileField(
         upload_to='club_gallery/',
-        storage=VideoMediaCloudinaryStorage(),
+        storage=GalleryMediaCloudinaryStorage(),
         validators=[
             FileExtensionValidator(
                 allowed_extensions=[
-                    'jpg', 'jpeg', 'png', 'gif', 'webp',
-                    'mp4', 'webm', 'mov'
+                    'jpg',
+                    'jpeg',
+                    'png',
+                    'gif',
+                    'webp',
+                    'mp4',
+                    'webm',
+                    'mov',
                 ]
             ),
             validate_media_size,
@@ -124,24 +160,42 @@ class ClubGalleryMedia(models.Model):
 
 
 class ClubResource(models.Model):
-    club = models.ForeignKey(Club, related_name='resources', on_delete=models.CASCADE)
+    club = models.ForeignKey(
+        Club,
+        related_name='resources',
+        on_delete=models.CASCADE,
+    )
+
     title = models.CharField(max_length=255)
+
     file = models.FileField(
         upload_to='resources/',
         blank=True,
         null=True,
         validators=[
             FileExtensionValidator(
-                allowed_extensions=['pdf', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx', 'txt']
+                allowed_extensions=[
+                    'pdf',
+                    'doc',
+                    'docx',
+                    'ppt',
+                    'pptx',
+                    'xls',
+                    'xlsx',
+                    'txt',
+                ]
             ),
             validate_resource_size,
         ],
     )
+
     link = models.URLField(blank=True, null=True)
 
     def clean(self):
         if not self.file and not self.link:
-            raise ValidationError('Add either a resource file or a resource link.')
+            raise ValidationError(
+                'Add either a resource file or a resource link.'
+            )
 
     def __str__(self):
         return self.title
@@ -155,13 +209,22 @@ class Event(models.Model):
         blank=True,
         related_name='events',
     )
+
     title = models.CharField(max_length=200)
     description = models.TextField()
     date_time = models.DateTimeField()
-    banner = models.ImageField(upload_to='event_banners/', validators=[validate_image_size])
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    banner = models.ImageField(
+        upload_to='event_banners/',
+        validators=[validate_image_size],
+    )
+
+    created_by = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+    )
+
     is_approved = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
-
