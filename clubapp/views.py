@@ -19,7 +19,7 @@ from .admin_key_crypto import decrypt_admin_key
 
 
 def get_admin_club(user):
-    return Club.objects.filter(admin_user=user).first()
+    return Club.objects.filter(admin_user=user)
 
 
 
@@ -407,31 +407,53 @@ def club_admin_login(request):
         if 'recover_key' in request.POST:
             email = request.POST.get('recovery_email', '').strip().lower()
             user = User.objects.filter(email__iexact=email).first()
-            club = get_admin_club(user) if user else None
+            clubs = Club.objects.filter(admin_user=user) if user else []
 
-            if club:
-                raw_key = decrypt_admin_key(club.admin_key)
-                if raw_key:
+            if clubs:
+                key_messages = []
+
+                for club in clubs:
+                    raw_key = decrypt_admin_key(club.admin_key)
+
+                    if raw_key:
+                        key_messages.append(
+                            f"Club: {club.club_name}\n"
+                            f"Admin Key: {raw_key}"
+                        )
+
+                if key_messages:
                     try:
                         send_mail(
-                            subject='Your Clubify Admin Key',
+                            subject="Your Clubify Admin Keys",
                             message=(
-                                f'Hello {club.admin_name},\n\n'
-                                f'Your current Clubify Admin Key is: {raw_key}\n\n'
-                                'If you did not request this, contact the Clubify administrator.'
+                                f"Hello {user.username},\n\n"
+                                "Here are your current Clubify admin keys:\n\n"
+                                + "\n\n".join(key_messages)
                             ),
                             from_email=settings.DEFAULT_FROM_EMAIL,
                             recipient_list=[email],
                             fail_silently=False,
                         )
                     except Exception:
-                        messages.error(request, 'We could not send the admin key email. Please try again later.')
+                        messages.error(
+                            request,
+                            "We could not send the admin key email. Please try again later."
+                        )
                     else:
-                        messages.success(request, 'Your current admin key has been sent to your email.')
+                        messages.success(
+                            request,
+                            "Your admin keys have been sent to your email."
+                        )
                 else:
-                    messages.error(request, 'Your admin key cannot be recovered. Please set a new key from Django Admin.')
+                    messages.error(
+                        request,
+                        "Your admin keys cannot be recovered. Please contact the administrator."
+                    )
             else:
-                messages.info(request, 'If that email belongs to a club admin, the current admin key will be sent.')
+                messages.info(
+                    request,
+                    "If that email belongs to a club admin, the admin keys will be sent."
+                )
         else:
             username = request.POST.get('username', '').strip()
             password = request.POST.get('password', '')
@@ -443,11 +465,12 @@ def club_admin_login(request):
                     user = authenticate(request, username=email_user.username, password=password)
 
             if user:
-                club = get_admin_club(user)
-                valid_admin_key = False
+                clubs = Club.objects.filter(admin_user=user)
 
-                if club:
-                    valid_admin_key = (admin_key == decrypt_admin_key(club.admin_key))
+                valid_admin_key = any(
+                    admin_key == decrypt_admin_key(club.admin_key)
+                    for club in clubs
+                )
 
                 if valid_admin_key:
                     login(request, user)
