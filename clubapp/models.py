@@ -6,6 +6,7 @@ from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
+from cloudinary_storage.storage import VideoMediaCloudinaryStorage
 
 from .admin_key_crypto import encrypt_admin_key
 
@@ -106,9 +107,13 @@ class ClubGalleryMedia(models.Model):
     club = models.ForeignKey(Club, on_delete=models.CASCADE, related_name='gallery_media')
     file = models.FileField(
         upload_to='club_gallery/',
+        storage=VideoMediaCloudinaryStorage(),
         validators=[
             FileExtensionValidator(
-                allowed_extensions=['jpg', 'jpeg', 'png', 'gif', 'webp', 'mp4', 'webm', 'mov']
+                allowed_extensions=[
+                    'jpg', 'jpeg', 'png', 'gif', 'webp',
+                    'mp4', 'webm', 'mov'
+                ]
             ),
             validate_media_size,
         ],
