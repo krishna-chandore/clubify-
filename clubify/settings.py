@@ -29,10 +29,9 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv('DJANGO_DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = [
-    "clubify-4c2npv8hi-codenit.vercel.app",
-    "localhost",
-    "127.0.0.1",
+    "clubify-three.vercel.app",
 ]
+
 
 
 # Application definition
