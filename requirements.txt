@@ -4,3 +4,4 @@ cryptography>=44.0
 Pillow>=11.0
 psycopg[binary]>=3.3
 dj-database-url>=2.3
+django-cloudinary-storage
