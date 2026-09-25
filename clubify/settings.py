@@ -29,9 +29,9 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 DEBUG = os.getenv('DJANGO_DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = [
-    host.strip()
-    for host in os.getenv('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
-    if host.strip()
+    "clubify-4c2npv8hi-codenit.vercel.app",
+    "localhost",
+    "127.0.0.1",
 ]
 
 
@@ -133,6 +133,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -143,8 +144,24 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-MEDIA_URL = '/media/'
+
 MEDIA_ROOT = BASE_DIR / 'media'
+# Cloudinary configuration
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+}
+
+# File storage configuration
+STORAGES = {
+    'default': {
+        'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
+    },
+}
 
 LOGIN_REDIRECT_URL = 'home'  # or any other page after login
 LOGOUT_REDIRECT_URL = 'login'
